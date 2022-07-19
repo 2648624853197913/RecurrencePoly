@@ -1,0 +1,121 @@
+\documentclass[a4paper,12pt]{article}
+
+\include{preamble}
+
+\begin{document}
+
+\section{An approach using $\mathbb{Z}[x]/_{\chi_G(x)}$}
+
+Let $G = (V,E)$ be an undirected graph with adjacency matrix $A$. Denote its characteristic polynomial by $\chi_G(x)$ and denote the quotient ring $B_G \coloneqq \mathbb{Z}[x]/_{\chi_G(x)}$.
+
+Recall, that we are interested in computing the polynomials $r_{uv}(x) \in \mathbb{Z}[x]$ for $u,v\in V$. Observe, that for our application it suffices to compute the image of $r_G(x) \coloneqq \sum_{u,v\in V} r_{uv}(x)$ in the quotient ring $B_G$. This is due to the fact, that the recurrence polynomial consists of exactly those factors of the characteristic polynomial, which do not divide $r_G(x)$. Furthermore, a factor of $\chi_G$ divides $r_G$ if and only if it divides the image of $r_G$ in $B_G$.
+
+The goal is to calculate the recurrence polynomial of $G$ without having to calculate large matrix powers of the adjacency matrix. In these notes I will state some observations/lemmas (mostly without proof), which could maybe lead to the desired result.
+
+\begin{lemma}
+In $B_G$, it holds that
+$$
+\sum_{v\in V}r_{vv}(x) = \chi_G'(x).
+$$
+\end{lemma}
+
+We can view $\mathbb{Z}^n$ as a $\mathbb{Z}[x]$-module, where the action of $x$ is defined as $x \cdot v = A\cdot v$. Furthermore,
+$$
+\varphi \colon \mathbb{Z}^n \times \mathbb{Z}^n \to B_G, (e_u, e_v) \mapsto r_{uv}
+$$
+with $\mathbb{Z}$-linear continuation defines a map of $\mathbb{Z}[x]$-modules ($B_G$ is a $\mathbb{Z}[x]$-module via the usual multiplication with $x$). The next lemma states, that $\varphi$ is actually a $\mathbb{Z}[x]$-module homomorphism ($\varphi$ can be seen as inner product on the module $\mathbb{Z}^n$). This allows to replace the costly matrix multiplication on $\mathbb{Z}^n$ by a simple multiplication by $x$ on the level of polynomials. The major drawback is that by transitioning into the ring $B_G$, we lose exact information on the adjacency matrix $A$. In particular, there exist non-isomorphic graphs with distinct recurrence polynomials, but same characteristic polynomial. Hence, restricting ourselves to $B_G$ can not lead to a solution of our main problem.
+
+\begin{lemma}
+The map $\varphi$, defined as above, is a $\mathbb{Z}[x]$-module homomorphism.
+\end{lemma}
+
+The following corollaries show, how this lemma can be applied in our setting.
+
+\begin{cor}
+In $B_G$, for all $u,v\in V$ it holds that
+$$
+\sum_{w\in N(v)}r_{wv}(x) = x \cdot r_{uv}(x).
+$$
+\end{cor}
+This immediately implies:
+\begin{cor}
+In $B_G$, it holds that
+$$
+\sum_{\{u,v\}\in E}r_{uv}(x) = x\cdot\chi'(x)
+$$
+\end{cor}
+
+Consequently, computing $\sum_{\{u,v\}\notin E, u \neq v}$ would solve our problem, but is unfortunately not as easy.
+
+\begin{cor}
+In $B_G$, it holds that
+$$
+x \cdot r_G(x) = \sum_{u,v \in V} \deg(u)r_{uv}(x).
+$$
+\end{cor}
+
+The following corollaries are interesting in the sense, that the sum over all $r_{uv}^2$ can be computed (efficiently) when only knowing the characteristic polynomial of $G$ (without knowledge of the adjacency matrix). In particular, this sum has to be equal (in $B_G$) for all, even non-isomorphic, graphs with the same characteristic polynomial.
+
+\begin{cor}
+In $B_G$, for all $u,v \in V$ it holds that
+$$
+r_{uv}(x)^2 = r_{uu}(x) \cdot r_{vv}(x).
+$$
+\end{cor}
+
+Immediate consequence:
+
+\begin{cor}
+In $B_G$, it holds that
+$$
+\sum_{u,v\in V}r_{uv}(x)^2 = \chi_G'(x)^2.
+$$
+\end{cor}
+
+Another strange, probably useless equation:
+
+\begin{cor}
+Denote the coefficient of $x^k$ in $r_{uv}(x)$ by $r_{uv}^k$. Furthermore, let $p_k$ be the truncation of $\chi_G$ up to level $k$ (i.e., $\chi_G(x) = x^k \cdot p_k(x) + \mathcal{O}(x^{k-1})$). Then for all $k$, it holds in $B_G$ that
+$$
+p_k \cdot \chi_G'(x) = \sum_{uv}r_{uv}^k \cdot r_{uv}(x).
+$$
+\end{cor}
+
+\begin{remark}
+All equations also work on divisors of $G$ (resp. equitable partitions). For example, if $P$ is an equitable partition of $G$, then
+$$
+\sum_{p\in P}\phi(e_p,e_p) = \chi_P'(x) \cdot \frac{\chi_G(x)}{\chi_P(x)}.
+$$
+\end{remark}
+
+The next equation provides an efficient formula for the derivative of $r_G(x)$. Unfortunately, the recurrence polynomial of $G$ obviously depends on the constant coefficient of $r_G(x)$. However, a direct computation involves computing the number of walks of length $n$ on $G$.
+
+\begin{lemma}
+Let $G^c$ be the complement of $G$, Then it holds that
+$$
+r_G'(x) = (-1)^{n+1}\chi_G'(x) - \chi_{G^c}'(-1-x).
+$$
+\end{lemma}
+
+\section{A more Galois theoretic approach}
+
+Let again $G=(V,E)$ be an undirected graph with adjacency matrix $A$. We define the centrality $c(v)$ of a node $v\in V$ as the limit of the probability, that a walk of length $k$ starts in node $v$. It is known, that the centrality of $v$ corresponds to the $v$-th entry of the (unique) eigenvector of $A$ of the largest eigenvalue of $A$.
+
+\begin{lemma}
+It holds that $c(u) = c(v)$ if and only if $u$ and $v$ belong to the same set in the coarsest equitable partition of $G$.
+\end{lemma}
+
+It is known that the characteristic polynomial of the coarsest equitable partition of $G$ is a divisor of the characteristic polynomial of $G$. Furthermore, all main eigenvalues of $G$ are also zeros of the characteristic polynomial of every equitable partition of $G$. In some cases, the characteristic polynomial of the partition and the recurrence polynomial of $G$ actually coincide. This, however, does not hold true for all graphs. In particular, if the coefficients of the eigenvector to the largest eigenvalue of $G$ fulfill more linear equations, the recurrence polynomial of $G$ is a proper divisor of the characteristic polynomial of the coarsest equitable partition of $G$.
+
+\begin{lemma}
+Let $v$ be the eigenvector of $A$ for the largest eigenvalue $\lambda$. Let the orthogonal complement of the kernel of the map 
+$$
+\mathbb{Z}^n \to \mathbb{R}, u \mapsto \langle u, v \rangle
+$$
+be generated by the vectors $u_1, \ldots, u_k$ ($\mathbb{R}$ can be replaced by the splitting field of the main polynomial of $G$).
+Define the matrix $P\in\mathbb{Z}^{n \times k}$ as $P \coloneqq (u_1, \ldots, u_k)$ and denote its pseudo-inverse by $P^+ \in \mathbb{Q}^{k\times n}$. Then the recurrence polynomial of $G$ is the characteristic polynomial of $P^+ \cdot A \cdot P$.
+\end{lemma}
+
+In particular, the degree of the recurrence polynomial of $G$ is equal to the rank of the lattice generated by the coefficients of $v$ in the splitting field of $\chi_G$ (interpreted as $\mathbb{Z}$-module) and a basis of this lattice would directly give a formula for the recurrence polynomial of $G$. There could exist an approach making use of the Hamiltonian normal form of $A$.
+
+\end{document}
