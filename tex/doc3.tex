@@ -34,7 +34,7 @@ The following corollaries show, how this lemma can be applied in our setting.
 \begin{cor}
 In $B_G$, for all $u,v\in V$ it holds that
 $$
-\sum_{w\in N(v)}r_{wv}(x) = x \cdot r_{uv}(x).
+\sum_{w\in N(u)}r_{wv}(x) = x \cdot r_{uv}(x).
 $$
 \end{cor}
 This immediately implies:
@@ -72,12 +72,18 @@ $$
 $$
 \end{cor}
 
+A similar result features the number of closed walks.
+
+\begin{cor}
+The number of closed walks on $G$ of length $k$ is given by the coefficient of $x^n$ in the residual of $x^k \cdot \chi_G'(x)$ in $B_G$.
+\end{cor}
+
 Another strange, probably useless equation:
 
 \begin{cor}
 Denote the coefficient of $x^k$ in $r_{uv}(x)$ by $r_{uv}^k$. Furthermore, let $p_k$ be the truncation of $\chi_G$ up to level $k$ (i.e., $\chi_G(x) = x^k \cdot p_k(x) + \mathcal{O}(x^{k-1})$). Then for all $k$, it holds in $B_G$ that
 $$
-p_k \cdot \chi_G'(x) = \sum_{uv}r_{uv}^k \cdot r_{uv}(x).
+p_k \cdot \chi_G'(x) = \sum_{u,v\in V}r_{uv}^k \cdot r_{uv}(x).
 $$
 \end{cor}
 
@@ -91,7 +97,7 @@ $$
 The next equation provides an efficient formula for the derivative of $r_G(x)$. Unfortunately, the recurrence polynomial of $G$ obviously depends on the constant coefficient of $r_G(x)$. However, a direct computation involves computing the number of walks of length $n$ on $G$.
 
 \begin{lemma}
-Let $G^c$ be the complement of $G$, Then it holds that
+Let $G^c$ be the complement of $G$. Then it holds that
 $$
 r_G'(x) = (-1)^{n+1}\chi_G'(x) - \chi_{G^c}'(-1-x).
 $$
