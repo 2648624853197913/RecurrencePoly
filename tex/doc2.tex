@@ -82,24 +82,46 @@ If one is only interested in the recurrence degree of $G$, the following procedu
 
 \subsection{General theory}
 
-There exists an isomorphism between the set of all linear recurrent sequences having characteristic polynomial $p$ and the quotient ring $\mathbb{Z}[x]/p(x)$ (see \cite{hall1938isomorphism}). If we identify the set of integer sequences with the ring of formal power series $\mathbb{Z}[[x]]$, this isomorphism is given by $\sigma(t) \mapsto p(t) t^{-1} \sigma\left(t^{-1}\right)$. The term $t^{-1}\cdot \sigma\left(t^{-1}\right) = \frac {r_\sigma(t)}{\varrho_\sigma(t)}$ (where $r$ and $\varrho_\sigma$ are coprime polynomials) is well-defined if and only if $\sigma$ is a linear recurrent sequence and $\varrho_\sigma(t)$ divides $p(t)$ if and only if $p$ is a characteristic polynomial for $\sigma$. In this case, $\varrho_\sigma$ is the least characteristic polynomial for $\sigma$.
+There exists an isomorphism between the set of all linear recurrent sequences having characteristic polynomial $p$ and the quotient ring $\mathbb{Z}[x]/p(x)$ (see \cite{hall1938isomorphism}). If we identify the set of integer sequences with the ring of formal power series $\mathbb{Z}[[x]]$, this isomorphism is given by $\sigma(t) \mapsto p(t) t^{-1} \sigma\left(t^{-1}\right)$. The term $t^{-1}\cdot \sigma\left(t^{-1}\right) = \frac {r_\sigma(t)}{\varrho_\sigma(t)}$ (where $r_\sigma$ and $\varrho_\sigma$ are coprime polynomials) is well-defined if and only if $\sigma$ is a linear recurrent sequence and $\varrho_\sigma(t)$ divides $p(t)$ if and only if $p$ is a characteristic polynomial for $\sigma$. In this case, $\varrho_\sigma$ is the least characteristic polynomial for $\sigma$.
 
 Let $q(x)$ be the image of $\sigma \in \mathbb{Z}[[x]]$ in $\mathbb{Z}[x]/p(x)$. The sequence $\sigma$ has a characteristic polynomial $\varrho_\sigma$ of degree lower than $p$ if and only if $q(x) \in \mathbb{Z}[x]/p(x)$ is a zero divisor (if and only if $p$ and $q$ are not coprime). The polynomial $\varrho_\sigma$ is given by 
 $$
 \varrho_\sigma(x) = \frac {p(x)} {\gcd(p(x), q(x))}.
 $$
-Hence, if $q(x)$ is known, we can compute $\varrho_\sigma$ by factoring $p$ and $q$ (resp. in time $\mathcal{O}(n^2)$ with the Euclidean algorithm).
+Hence, if $q(x)$ is known, we can compute $\varrho_\sigma$ by factoring $p$ and $q$ (resp. using the Euclidean algorithm).
 
 When the first $\deg(p)$ terms of $\sigma$ are known, it is possible to directly compute the polynomial $p(t) t^{-1} \sigma\left(t^{-1}\right)$. However, if $\sigma$ is the (local or global) walk count of a graph, this polynomial can be obtained in other ways.
 
 \subsection{Undirected graphs}
 
-Let $G$ be an undirected graph with adjacency matrix $A$ and let $u,v \in V$. The number of walks of length $k$ starting in $u$ and ending in $v$ is denoted by $w_k^{uv}$ and can be computed as $w_k^{uv} = \langle e_u,A^ke_v\rangle$. Denote the global walk count sequence of $G$ by $w_r$ and the images of $w_r$ resp. $w_r^{uv}$ in $\mathbb{Z}[x]/\chi_G[x]$ by $r_G$ resp. $r_{uv}$. By linearity of the described isomorphism it follows that $r_G = \sum_{u,v\in V}r_{uv}$. Hence, we are interested in computing the polynomials $r_{uv}$ for $u,v\in V$ arbitrary.
+Let $G$ be an undirected graph with adjacency matrix $A$ and let $u,v \in V$. The number of walks of length $k$ starting in $u$ and ending in $v$ is denoted by $w_k^{uv}$ and can be computed as $w_k^{uv} = \langle e_u,A^ke_v\rangle$. Denote the global walk count sequence of $G$ by $w_r$ and the images of $w_r$ resp. $w_r^{uv}$ in $\mathbb{Z}[x]/\chi_G[x]$ by $r_G$ resp. $r_{uv}$. By linearity of the described isomorphism it follows that $r_G = \sum_{u,v\in V}r_{uv}$.
 
+\subsubsection{The global case}
+
+Let the complement of $G$ be denoted by $G^c$. Then Cvetkovic et al. (cf. \cite{cvetkovic1980spectra}, p. 46) showed the following: 
+
+\begin{thm} Let $w_G(x) \coloneqq \sum_{k=0}^\infty w_k t^k$. Then it holds that
+$$
+\frac{\chi_{G^c}(-1-x)}{\chi_G(x)} = (-1)^n \left(w_G\left(x^{-1}\right)x^{-1} + 1\right). 
+$$
+\end{thm}
+In our case, this immediately implies
+
+\begin{cor}
+$$
+r_G(x) = -\chi_G(x) + (-1)^n \chi_{G^c}(-1-x).
+$$
+\end{cor}
+This provides a convenient way to compute the recurrence polynomial of a given graph.
+
+
+\subsubsection{The local case}
+
+We are furthermore interested in computing recurrence polynomials for the local walk counts between particular nodes $u$ and $v$ of the given graph.
 If $u=v$, this is relatively easy:
 
 \begin{claim}\label{cl:closed_walks}
-Let $G$ be an undirected graph with adjacency matrix $A$, $v\in V$. Then it holds
+Let $G$ be an undirected graph with adjacency matrix $A$, $v\in V$. Then it holds that
 $$
 r_{vv}(x) = \chi_{A_v}(x),
 $$
@@ -108,20 +130,36 @@ where $A_v$ is obtained from $A$ by removing the $v$-th row and column.
 
 In other words, $r_{vv}$ is the characteristic polynomial of $G\backslash\{v\}$. In particular, it follows that $\varrho_{vv}$ consists of all factors of the characteristic polynomial of $A$ which are not contained in the characteristic polynomial of $A_v$. Furthermore, the previously described approach can be generalized to obtain that $\varrho_{vv}$ is the characteristic polynomial of $A|_{Z(e_v,A)}$.
 
-If $u\neq v$, it gets more complicated. We say $p \in V^{k+1}$ is a simple path of length $k$, if $p = (v_1, \ldots, v_{k+1})$, such that the $v_i$ are pairwise unequal and $\{v_i,v_{i+1}\} \in E$ for all $i=1, \ldots, k$. In particular, the simple paths of length zero are exactly the nodes of $G$ and the simpe paths of length one are its edges (where each edge gives rise to two paths of length one). For nodes $u,v\in V$, let $P_{uv}$ be the set of simple paths starting in $u$ and ending in $v$.
+If $u\neq v$, it gets more complicated. We say $p \in V^{k+1}$ is a simple path of length $k$, if $p = (v_1, \ldots, v_{k+1})$, such that the $v_i$ are pairwise unequal and $\{v_i,v_{i+1}\} \in E$ for all $i=1, \ldots, k$. In particular, the simple paths of length zero are exactly the nodes of $G$ and the simpe paths of length one are its edges (where each edge gives rise to two paths of length one). For nodes $u,v\in V$, let $P_{uv}$ be the (finite) set of simple paths starting in $u$ and ending in $v$.
 
 \begin{claim}\label{cl:local_walks}
-Let $G$ be an undirected graph with adjacency matrix $A$, let $u,v\in V$. Then it holds
+Let $G$ be an undirected graph with adjacency matrix $A$, let $u,v\in V$. Then it holds, that
 $$
 r_{uv}(x) = \sum_{p\in P_{uv}} \chi_{G\backslash p}(x).
 $$
 \end{claim}
 
-Note, that this is a generalization of the previous Claim \ref{cl:closed_walks}. Using that $r_G = \sum_{u,v\in V}r_{uv}$, we get the following equation:
+Note, that this is a generalization of the previous Claim \ref{cl:closed_walks}, since $P_{vv} = \{(v)\}$. Using that $r_G = \sum_{u,v\in V}r_{uv}$, we get the following equation:
 $$
 r_G(x) = \sum_{p\subseteq G \text{ simple path}}\chi_{G\backslash p}(x).
 $$
 Therefore, the recurrence polynomial $\varrho_G$ consists of all factors of the characteristic polynomial, which do not divide this sum.
+
+\begin{remark}
+This is particularly interesting in the case when $G$ is a tree, due to the fact that for every pair of nodes $u, v$ there exists exactly one simple path connecting these nodes. Hence, the sum $r_{uv}$ consists of only one characteristic polynomial of the induced subgraph of $G$ containing all nodes outside this unique path.
+\end{remark}
+
+\begin{cor}
+The recurrence polynomial for the sequence of closed walks on $G$ is equal to its minimal polynomial.
+\end{cor}
+
+\begin{proof}
+Let the sequence of closed walks on $G$ be denoted by $w^{cl}_r$ and let $r_{cl}(x)$ be the image of $w^{cl}(x)$ in $\mathbb{Z}[x]/_{\chi_G(x)}$. Then it holds that
+$$
+r_{cl}(x) = \sum_{v\in V} r_{vv}(x) = \sum_{v\in V}\chi_{A_v}(x) = \chi_G'(x).
+$$
+Obviously, $\frac{\chi_G(x)}{\gcd\left(\chi_G(x), \chi_G'(x)\right)}$ equals the minimal polynomial of $G$.
+\end{proof}
 
 \begin{cor}
 Let $d$ be the minimal degree among the degrees of the factors of the characteristic polynomial of $G$. If $G$ contains two nodes with (shortest path) distance $n-d$, then the characteristic polynomial of $G$ equals its minimal polynomial.
@@ -140,7 +178,7 @@ Indeed, if $(u,v)$ is a pair of nodes with distance $n-d$, then the local residu
 The local recurrence polynomials $\varrho_{uv}$ are always a factor of the minimal polynomial of $G$. However, $\varrho_{uv}$ can be a multiple of $\varrho_G$, a factor of $\varrho_G$ or neither of those. This can be seen for example in the path $P_4$ on five vertices. It holds
 \begin{align*}
 \varrho_G(x) &= x(x^2-3),\\
-\varrho_{1,5}(x) &= x(x-1)(x+1)(x^2-3) = \chi_G,\\
+\varrho_{1,5}(x) &= x(x-1)(x+1)(x^2-3) = \chi_G(x),\\
 \varrho_{1,3}(x) &= x(x^2-3),\\
 \varrho_{2,3}(x) &= x^2-3,\\
 \varrho_{2,4}(x) &= (x-1)(x+1)(x^2-3)
@@ -163,7 +201,7 @@ Let $G$ be an undirected graph, $u \in V$, let $d \coloneqq \max_{v\in V}(\text{
 \end{cor}
 
 \begin{proof}
-Recall that $\varrho_{uu}$ is te characteristic polynomial of $A|_{Z(e_u,A)}$. Since $\left(A^ie_u\right)_v = 0$ for all $i < d$, but $\left(A^de_u\right)_v > 0$, the vector $A^de_u$ is linearly independent of all $A^ie_u$ for all $i < d$. Hence, $\deg\left(\varrho_{uu}\right) = \dim\left(Z(e_u,A)\right) \ge d+1$.
+Recall that $\varrho_{uu}$ is the characteristic polynomial of $A|_{Z(e_u,A)}$. Since $\left(A^ie_u\right)_v = 0$ for all $i < d$, but $\left(A^de_u\right)_v > 0$, the vector $A^de_u$ is linearly independent of all $A^ie_u$ for all $i < d$. Hence, $\deg\left(\varrho_{uu}\right) = \dim\left(Z(e_u,A)\right) \ge d+1$.
 \end{proof}
 
 \begin{cor}
@@ -183,6 +221,43 @@ and hence, $\varrho_{uu}$ is a characteristic polynomial for $w_r^{uv}$ as desir
 \end{proof}
 
 Unfortunately, in general $\varrho_{uv}$ is a proper divisor of the greatest common divisor of $\varrho_{uu}$ and $\varrho_{vv}$.
+
+\subsection{A collection of semi-useful equations}
+
+This section holds a collection of equations which could possibly later be of some use.
+
+Let $G = (V,E)$ be again an undirected graph with adjacency matrix $A$. Denote its characteristic polynomial by $\chi_G(x)$ and define the quotient ring $B_G \coloneqq \mathbb{Z}[x]/_{\chi_G(x)}$.
+
+Recall, that we are interested in computing the polynomials $r_{uv}(x) \in \mathbb{Z}[x]$ for $u,v\in V$. Observe, that for our application it suffices to compute the image of the polynomials $r_{uv}(x)$ in the quotient ring $B_G$. This is due to the fact, that the recurrence polynomial consists of exactly those factors of the characteristic polynomial, which do not divide $r_G(x)$. Furthermore, a factor of $\chi_G$ divides $r_G$ if and only if it divides the image of $r_G$ in $B_G$.
+
+The following equations hold inside the quotient ring $B_G$:
+
+\begin{enumerate}
+\item
+For all $u,v \in V$: $\sum_{w\in N(u)}r_{wv}(x) = x \cdot r_{uv}(x)$.
+
+In other words, the costly matrix multiplication by $A$ on a $\mathbb{Z}^n$-level can be replaced by a simple multiplication by $x$ on the $B_G$-level.
+
+\item $\sum_{\{u,v\} \in E}r_{uv}(x) = x \cdot \chi_G'(x)$.
+
+\item $\sum_{u,v \in V}\deg(u)r_{uv}(x) = x \cdot r_G(x)$.
+
+\item $r_{uv}(x)^2 = r_{uu}(x) \cdot r_{vv}(x)$.
+
+\item $\sum_{u,v\in V}r_{uv}(x)^2 = \chi_G'(x)^2$.
+\end{enumerate}
+The following equations hold absolutely (e.g. not only in $B_G$):
+\begin{enumerate}
+\item $r_G'(x) = \sum_{v\in V} r_{G \backslash \{v\}}(x)$.
+
+\item $r_G(x) = (-1)^{n-1}r_{G^c}(-1-x)$.
+
+\item $r_{vv}(x) + (-1)^{n-1}r_{vv}^c(-1-x) = r_{G \backslash \{v\}}(x) = \sum_{u \neq v} r_{uv}(x) + (-1)^{n-1}r_{uv}^c(-1-x)$ for all $v\in V$.
+
+Here, $r^c$ denotes the corresponding polynomial of $G^c$.
+
+\item The number of length two walks in $G$ and $G^c$ differs exactly by $$w_G^2 - w_{G^c}^2 = (n-1)(4m-n(n-1)).$$
+\end{enumerate}
 
 \bibliography{references.bib}
 \end{document}

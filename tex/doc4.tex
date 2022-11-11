@@ -1,0 +1,143 @@
+\documentclass[a4paper,12pt]{article}
+
+\include{preamble}
+
+\begin{document}
+
+\section{Collection of Equations}
+
+Let $G = (V,E)$ be a graph on $n \coloneqq |V|$ nodes. Denote its complement by $G^c$ (i.e. $G^c$ has the same nodes as $G$ and two nodes are adjacent in $G^c$ if and only if they are not adjacent in $G$). Recall that
+$$
+r^G_{uv}(x) \coloneqq \chi_G(x) \cdot x^{-1} \cdot H_{uv}(x),
+$$
+where $H_{uv}(x)$ is the generating function of the sequence of walks from node $u \in V$ to node $v \in V$ (actually, the map $\sigma(x) \mapsto \chi_G(x) \cdot x^{-1} \cdot \sigma(x)$ defines an isomorphism from the set of linear recurrence sequences having characteristic polynomial $\chi_G(x)$ into the quotient ring $\mathbb{Z}[x]/_{\chi_G(x)}$). If the graph in question is unambiguous, we will suppress it in the notation of $r^G_{uv}(x)$ and simply write $r_{uv}(x)$ instead.
+
+Here is a collection of facts/equations that arise in this context. Proofs can be provided if necessary.
+\begin{enumerate}
+\item 
+The degree of the polynomial $r_{uv}(x)$ is given by $\deg(r_{uv}) = n - 1 - \textrm{dist}(u,v)$.
+
+\item 
+This definition extends by linearity to the more general setting of walks from a subset $S\subseteq V$ to a subset $T\subseteq V$ (in particular, it holds that $r_{S,T}(x) = \sum_{u\in S}\sum_{v\in T}r_{uv}(x)$). Furthermore, define $r_G(x) \coloneqq \sum_{(u,v)\in V^2}r_{uv}(x)$.
+
+\item
+The recurrence polynomial (i.e. least characteristic polynomial) of the sequence of walks from $S$ to $T$ equals
+$$
+\varrho_{S,T}(x) = \frac{\chi_G(x)}{\gcd (\chi_G(x),r_{S,T}(x))}.
+$$
+
+\item 
+The leading coefficient of $r_{uv}(x)$ equals the number of shortest paths from $u$ to $v$ (unfortunately this does not generalize to the lower coefficients).
+
+\item 
+Let $P_{uv}$ denote the number of paths from $u$ to $v$ (i.e. walks visiting each node only once). Then it holds that
+$$
+r_{uv}(x) = \sum_{p \in P_{uv}} \chi_{G \backslash p} (x)
+$$
+for all $u,v \in V$.
+
+\item 
+In particular, this implies
+$$
+r_{vv}(x) = \chi_{G \backslash\{v\}}(x)
+$$
+for all $v \in V$.
+
+\item 
+The global polynomial $r_G(x)$ can be computed as
+$$
+r_G(x) = -\chi_G(x) + (-1)^n \chi_{G^c}(-1-x).
+$$
+Therefore, it furthermore holds that
+$$
+r_G(x) = (-1)^{n-1} r_{G^c}(-1-x).
+$$
+
+\item
+Consequently, we can compute the derivatives of $\chi_G(x)$ and $r_G(x)$ as follows:
+\begin{align*}
+\chi_G'(x) &= \sum_{v\in V}r_{vv}(x) = \sum_{v\in V} \chi_{G \backslash\{v\}}(x),\\
+r_G'(x) &= \sum_{v\in V} r_{G \backslash\{v\}}(x).
+\end{align*}
+
+\item 
+For a subset $S \subseteq V$, let $G_S$ be the graph consisting of $G$ with an additional node connected to exactly all nodes in $S$. Then it holds that
+\begin{align*}
+\chi_{G_S}(x) &= x\cdot \chi_G(x) - r_{SS}(x),\\
+r_{G_S}(x) &= (x+1)\cdot r_G(x) + \chi_G(x) + r_{SS}(x) + (-1)^nr_{SS}^{G^c}(-1-x).
+\end{align*}
+
+If $S = N(v)$ for some node $v\in V$, this simplifies to the equations
+\begin{align*}
+x^2\cdot\chi_{G\backslash\{v\}}(x) - 2x\cdot\chi_G(x) + \chi_{G_S}(x) &= 0,\\
+x^2\cdot r_{G\backslash\{v\}}(x) - 2x\cdot r_G(x) + r_{G_S}(x) &= 0.
+\end{align*}
+
+If $S = \{v\}$ is a single node, then we can rewrite this as
+\begin{align*}
+\chi_{G_v}(x) &= x \cdot\chi_G(x)-\chi_{G\backslash\{v\}}(x),\\
+r_{G_u}(x) &= x \cdot r_G(x) + \chi_G(x) - r_{G\backslash\{v\}}(x)+2r_{v,G}(x).
+\end{align*}
+
+\item 
+Define the matrix $R_G(x)$ to be the collection of all polynomials $r_{uv}(x)$, i.e.
+$$
+\left(R_G(x)\right)_{u,v} \coloneqq r_{uv}(x).
+$$
+
+\item 
+For an arbitrary polynomial $p(x) = \sum_{i=0}^d p_ix^i \in \mathbb{Z}[x]$, define its truncation to the $j$-th level as
+$$
+\tr_jp(x) = \sum_{i=0}^{d-1-j}p_{i+j+1}x^i.
+$$
+In particular, $\tr_{-1}p(x) = p(x)$ and $tr_{d-1}p(x) = 1$. Then it holds that
+$$
+R_G(x) = \sum_{i=0}^{n-1}\tr_i\chi_G(x)A^i = \sum_{i=0}^{n-1}\tr_i\chi_G(A)x^i.
+$$
+
+\item 
+Let $\lambda_1, \ldots, \lambda_n$ be the eigenvalues of $G$, then the characteristic polynomial $\chi_{R_G(x)}(y) \in \mathbb{Z}[x,y]$ can be computed as
+$$
+\chi_{R_G(x)}(y) = \prod_{i=1}^n\left(y - \frac{\chi_G(x)}{x-\lambda_i}\right) = \frac{y^n \chi_G\left(x-\frac {\chi_G(x)}y\right)}{\chi_G(x)}.
+$$
+In particular, this shows that the eigenvalues of $R_G(x)$ are exactly the polynomials $\frac{\chi_G(x)}{x-\lambda}$ for the eigenvalues $\lambda$ of $G$. Furthermore, it holds that $\det\left(R_G(x)\right) = \chi_G(x)^{n-1}, \trace\left(R_G(x)\right) = \chi_G'(x)$ and $\trace\left(R_G(x)^2\right) = \chi_G'(x)^2 - \chi_G''(x)\chi_G(x)$ (local version of the last equation: $\sum_{(u,v)\in V^2}r_{uv}(x)^2 = \chi_G'(x)^2 - \chi_G''(x)\chi_G(x)$).
+
+One can even show that the eigenvectors of $G$ with respect to the eigenvalue $\lambda$ coincide with the eigenvectors of $R_G(x)$ with respect to the eigenvalue $\frac{\chi_G(x)}{x-\lambda}$.
+
+\item 
+The matrix $R_G(x)$ admits some kind of linearity: For an arbitrary polynomial $p(x) \in \mathbb{Z}[x]$, it holds that
+$$
+p(A) \cdot R_G(x) = R_G(x) \cdot p(A) = p(x) R_G(x) - \chi_G(x) \sum_{i=0}^{\deg(p)-1} \tr_ip(x)A^i.
+$$
+Note that this implies linearity over the quotient ring $\mathbb{Z}[x]/_{\chi_G(x)}$.
+In particular, one consequence of this is an easier local version. For $u,v \in V$ arbitrary, we have the following equality:
+$$
+r_{N(u),v}(x) = \begin{cases}
+x \cdot r_{uu}(x) - \chi_G(x), & u = v\\
+x \cdot r_{uv}(x), & u \neq v
+\end{cases}.
+$$
+
+\item 
+There exists a direct way to compute $r_{uv}(x)$ for particular $u \neq v \in V$. In fact, it holds that
+$$
+r_{uv}(x)^2 = \chi_{G\backslash u}(x)\cdot \chi_{G\backslash\{v\}}(x) - \chi_{G\backslash\{u,v\}}(x)\cdot\chi_G(x).
+$$
+
+\item 
+This can be carried out to the polynomial $r_G(x)$ instead of $\chi_G(x)$, i.e. we define a matrix $M_G(x) \in \mathbb{Z}[x]^{n \times n}$ by
+$$
+\left(M_G(x)\right)_{u,v} \coloneqq \begin{cases}
+-r_{G\backslash\{u\}}(x), &u = v\\
+\sqrt{r_{G\backslash\{u\}}(x) \cdot r_{G\backslash\{v\}}(x) - r_{G\backslash \{u,v\}}(x) \cdot r_G(x)}, &u \neq v
+\end{cases}.
+$$
+Then we can write $M_G(x)$ as
+$$
+M_G(x) = R_G(x) + (-1)^n \cdot R_{G^c}(-1-x).
+$$
+Note, that apart from the sign change on the main diagonal, the matrix $M_G(x)$ is obtained from $r_G(x)$ in the same way as $R_G(x)$ from $\chi_G(x)$ (maybe this generalizes to some kind of morphisms $\mathcal{G}\to\mathbb{Z}[x]$, where $\mathcal{G}$ denotes the set of all undirected graphs).
+\end{enumerate}
+
+\bibliography{references.bib}
+\end{document}
