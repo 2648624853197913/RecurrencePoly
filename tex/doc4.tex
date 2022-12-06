@@ -4,7 +4,7 @@
 
 \begin{document}
 
-\section{Collection of Equations}
+\section*{Collection of Equations}
 
 Let $G = (V,E)$ be a graph on $n \coloneqq |V|$ nodes. Denote its complement by $G^c$ (i.e. $G^c$ has the same nodes as $G$ and two nodes are adjacent in $G^c$ if and only if they are not adjacent in $G$). Recall that
 $$
@@ -14,17 +14,19 @@ where $H_{uv}(x)$ is the generating function of the sequence of walks from node 
 
 Here is a collection of facts/equations that arise in this context. Proofs can be provided if necessary.
 \begin{enumerate}
-\item 
-The degree of the polynomial $r_{uv}(x)$ is given by $\deg(r_{uv}) = n - 1 - \textrm{dist}(u,v)$.
 
 \item 
-This definition extends by linearity to the more general setting of walks from a subset $S\subseteq V$ to a subset $T\subseteq V$ (in particular, it holds that $r_{S,T}(x) = \sum_{u\in S}\sum_{v\in T}r_{uv}(x)$). Furthermore, define $r_G(x) \coloneqq \sum_{(u,v)\in V^2}r_{uv}(x)$.
+This definition extends by linearity to the more general setting of walks from a subset $S\subseteq V$ to a subset $T\subseteq V$ (in particular, it holds that $r_{S,T}(x) = \sum_{u\in S}\sum_{v\in T}r_{uv}(x)$). Furthermore, define $r_G(x) \coloneqq r_{V,V}(x) = \sum_{(u,v)\in V^2}r_{uv}(x)$.
+
+\item 
+The degree of the polynomial $r_{uv}(x)$ is given by $\deg(r_{uv}) = n - 1 - \textrm{dist}(u,v)$.
 
 \item
 The recurrence polynomial (i.e. least characteristic polynomial) of the sequence of walks from $S$ to $T$ equals
 $$
 \varrho_{S,T}(x) = \frac{\chi_G(x)}{\gcd (\chi_G(x),r_{S,T}(x))}.
 $$
+Therefore, $\varrho$ can be seen as some kind of waste product of $\chi$ and $r$, since they seem to be better controllable.
 
 \item 
 The leading coefficient of $r_{uv}(x)$ equals the number of shortest paths from $u$ to $v$ (unfortunately this does not generalize to the lower coefficients).
@@ -43,7 +45,7 @@ r_{vv}(x) = \chi_{G \backslash\{v\}}(x)
 $$
 for all $v \in V$.
 
-\item 
+\item \label{chiGc}
 The global polynomial $r_G(x)$ can be computed as
 $$
 r_G(x) = -\chi_G(x) + (-1)^n \chi_{G^c}(-1-x).
@@ -61,10 +63,28 @@ r_G'(x) &= \sum_{v\in V} r_{G \backslash\{v\}}(x).
 \end{align*}
 
 \item 
-For a subset $S \subseteq V$, let $G_S$ be the graph consisting of $G$ with an additional node connected to exactly all nodes in $S$. Then it holds that
+Let $G_1$ and $G_2$ be undirected graphs and denote their join by $G_1 \triangledown G_2$ (i.e. $G_1 \triangledown G_2 = \left(G_1^c \cup G_2^c\right)^c$). Then the following holds:
+\begin{align*}
+\chi_{G_1\cup G_2}(x) &= \chi_{G_1}(x) \cdot \chi_{G_2}(x),\\
+r_{G_1\cup G_2}(x) &= r_{G_1}(x)\cdot\chi_{G_2}(x) + \chi_{G_1}(x)\cdot r_{G_2}(x),\\
+\chi_{G_1 \triangledown G_2}(x) &= \chi_{G_1}(x) \cdot \chi_{G_2}(x) - r_{G_1}(x)\cdot r_{G_2}(x),\\
+r_{G_1 \triangledown G_2}(x) &= -\chi_{G_1}(x)\cdot \chi_{G_2}(x)+\chi_{G_1}(x)\cdot r_{G_2}(x) + r_{G_1}(x)\cdot\chi_{G_2}(x) + 2\cdot r_{G_1}(x) \cdot r_{G_2}(x)
+\end{align*}
+In particular, from this we can derive that the spectrum of $G_1 \triangledown G_2$ contains all non-main eigenvalues of $G_1$ and $G_2$, but none of the main eigenvalues of $G_1$ or $G_2$. (careful, here the same eigenvalue with multiplicity $k$ is counted as $k$ distinct eigenvalues). Furthermore, if $\lambda$ is a non-main eigenvalue of some $G_i$, it is also a non-main eigenvalue of $G_1 \triangledown G_2$. Nevertheless, there can exist non-main eigenvalues of $G_1 \triangledown G_2$ which do not come from $G_1$ or $G_2$.
+
+This simple example already shows that the polynomials $r_{S,T}(x)$ can get messy really fast, when the structure of the graph is slightly modified.
+
+\item 
+For a subset $S \subseteq V$, let $G_S$ be the graph consisting of $G$ with an additional node connected to the nodes in $S$. Then it holds that
 \begin{align*}
 \chi_{G_S}(x) &= x\cdot \chi_G(x) - r_{SS}(x),\\
-r_{G_S}(x) &= (x+1)\cdot r_G(x) + \chi_G(x) + r_{SS}(x) + (-1)^nr_{SS}^{G^c}(-1-x).
+r_{G_S}(x) &= (x+1)\cdot r_G(x) + \chi_G(x) + r_{SS}(x) + (-1)^nr_{\bar{S}\bar{S}}^{G^c}(-1-x).
+\end{align*}
+
+If $S = \{v\}$ is a single node, then we can rewrite this as
+\begin{align*}
+\chi_{G_v}(x) &= x \cdot\chi_G(x)-\chi_{G\backslash\{v\}}(x),\\
+r_{G_v}(x) &= x \cdot r_G(x) + \chi_G(x) - r_{G\backslash\{v\}}(x)+2r_{v,G}(x).
 \end{align*}
 
 If $S = N(v)$ for some node $v\in V$, this simplifies to the equations
@@ -73,20 +93,12 @@ x^2\cdot\chi_{G\backslash\{v\}}(x) - 2x\cdot\chi_G(x) + \chi_{G_S}(x) &= 0,\\
 x^2\cdot r_{G\backslash\{v\}}(x) - 2x\cdot r_G(x) + r_{G_S}(x) &= 0.
 \end{align*}
 
-If $S = \{v\}$ is a single node, then we can rewrite this as
-\begin{align*}
-\chi_{G_v}(x) &= x \cdot\chi_G(x)-\chi_{G\backslash\{v\}}(x),\\
-r_{G_u}(x) &= x \cdot r_G(x) + \chi_G(x) - r_{G\backslash\{v\}}(x)+2r_{v,G}(x).
-\end{align*}
-
 \item 
-Define the matrix $R_G(x)$ to be the collection of all polynomials $r_{uv}(x)$, i.e.
+Define the matrix $R_G(x) \in \mathbb{Z}[x]^{n\times n}$ to be the collection of all polynomials $r_{uv}(x)$, i.e.
 $$
 \left(R_G(x)\right)_{u,v} \coloneqq r_{uv}(x).
 $$
-
-\item 
-For an arbitrary polynomial $p(x) = \sum_{i=0}^d p_ix^i \in \mathbb{Z}[x]$, define its truncation to the $j$-th level as
+For an arbitrary polynomial $p(x) = \sum_{i=0}^d p_ix^i \in \mathbb{Z}[x]$, define its truncation on the $j$-th level as
 $$
 \tr_jp(x) = \sum_{i=0}^{d-1-j}p_{i+j+1}x^i.
 $$
@@ -105,23 +117,30 @@ In particular, this shows that the eigenvalues of $R_G(x)$ are exactly the polyn
 One can even show that the eigenvectors of $G$ with respect to the eigenvalue $\lambda$ coincide with the eigenvectors of $R_G(x)$ with respect to the eigenvalue $\frac{\chi_G(x)}{x-\lambda}$.
 
 \item 
-The matrix $R_G(x)$ admits some kind of linearity: For an arbitrary polynomial $p(x) \in \mathbb{Z}[x]$, it holds that
+This induces another (rather impractical) way to compute $R_G(x)$: If $P$ diagonalizes the adjacency matrix $A$ (i.e. $P ^\top A P = D$), then
 $$
-p(A) \cdot R_G(x) = R_G(x) \cdot p(A) = p(x) R_G(x) - \chi_G(x) \sum_{i=0}^{\deg(p)-1} \tr_ip(x)A^i.
+R_G(x) = P \cdot \mathrm{diag}\left(\frac{\chi_G(x)}{x-\lambda_1}, \ldots, \frac{\chi_G(x)}{x-\lambda_n}\right) \cdot P^\top.
+$$
+
+\item 
+The matrix $R_G(x)$ admits some kind of linearity: For an arbitrary polynomial $p(x) \in \mathbb{Z}[x]$ of degree $d$, it holds that
+$$
+p(A) \cdot R_G(x) = R_G(x) \cdot p(A) = p(x) R_G(x) - \chi_G(x) \cdot \sum_{i=0}^{d-1} \tr_ip(x)A^i.
 $$
 Note that this implies linearity over the quotient ring $\mathbb{Z}[x]/_{\chi_G(x)}$.
 In particular, one consequence of this is an easier local version. For $u,v \in V$ arbitrary, we have the following equality:
 $$
-r_{N(u),v}(x) = \begin{cases}
+r_{N(u),v}(x) = r_{u, N(v)}(x) = \begin{cases}
 x \cdot r_{uu}(x) - \chi_G(x), & u = v\\
 x \cdot r_{uv}(x), & u \neq v
 \end{cases}.
 $$
 
+
 \item 
 There exists a direct way to compute $r_{uv}(x)$ for particular $u \neq v \in V$. In fact, it holds that
 $$
-r_{uv}(x)^2 = \chi_{G\backslash u}(x)\cdot \chi_{G\backslash\{v\}}(x) - \chi_{G\backslash\{u,v\}}(x)\cdot\chi_G(x).
+r_{uv}(x)^2 = \chi_{G\backslash \{u\}}(x)\cdot \chi_{G\backslash\{v\}}(x) - \chi_{G\backslash\{u,v\}}(x)\cdot\chi_G(x).
 $$
 
 \item 
@@ -132,12 +151,15 @@ $$
 \sqrt{r_{G\backslash\{u\}}(x) \cdot r_{G\backslash\{v\}}(x) - r_{G\backslash \{u,v\}}(x) \cdot r_G(x)}, &u \neq v
 \end{cases}.
 $$
-Then we can write $M_G(x)$ as
-$$
-M_G(x) = R_G(x) + (-1)^n \cdot R_{G^c}(-1-x).
-$$
-Note, that apart from the sign change on the main diagonal, the matrix $M_G(x)$ is obtained from $r_G(x)$ in the same way as $R_G(x)$ from $\chi_G(x)$ (maybe this generalizes to some kind of morphisms $\mathcal{G}\to\mathbb{Z}[x]$, where $\mathcal{G}$ denotes the set of all undirected graphs).
+Then (in analogy to point \ref{chiGc}) we can write $M_G(x)$ as
+\begin{align*}
+M_G(x) &= R_G(x) + (-1)^n \cdot R_{G^c}(-1-x),\\
+M_G(x) &= (-1)^n \cdot M_{G^c}(-1-x).
+\end{align*}
+
+Note that, apart from the sign change on the main diagonal, the matrix $M_G(x)$ is obtained from $r_G(x)$ in the same way as $R_G(x)$ from $\chi_G(x)$ (maybe this generalizes to some kind of morphisms $\mathcal{G}\to\mathbb{Z}[x]$, where $\mathcal{G}$ denotes the set of all undirected graphs).
+
+Since $(1, \ldots, 1) \cdot M_G(x) \cdot (1, \ldots, 1)^\top = 0$, this construction cannot be carried out further.
 \end{enumerate}
 
-\bibliography{references.bib}
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2022.7.19)  19 JUL 2022 14:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2022.7.19)  27 OCT 2022 10:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -446,35 +446,43 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 62.
 
-[2] [3]
-<pics/graph2.png, id=79, 433.62pt x 289.08pt>
+[2] [3] [4]
+<pics/graph2.png, id=101, 433.62pt x 289.08pt>
 File: pics/graph2.png Graphic file (type png)
 <use pics/graph2.png>
-Package pdftex.def Info: pics/graph2.png  used on input line 134.
+Package pdftex.def Info: pics/graph2.png  used on input line 172.
 (pdftex.def)             Requested size: 216.80946pt x 144.53964pt.
- [4]
-Overfull \hbox (17.99303pt too wide) in paragraph at lines 162--163
-[]\OT1/cmr/bx/n/12 Corollary 2.5. \OT1/cmr/m/it/12 Let $\OML/cmm/m/it/12 G$ \OT
+ [5 <./pics/graph2.png>]
+Overfull \hbox (17.99303pt too wide) in paragraph at lines 200--201
+[]\OT1/cmr/bx/n/12 Corollary 2.9. \OT1/cmr/m/it/12 Let $\OML/cmm/m/it/12 G$ \OT
 1/cmr/m/it/12 be an undi-rected graph, $\OML/cmm/m/it/12 u \OMS/cmsy/m/n/12 2 \
 OML/cmm/m/it/12 V$\OT1/cmr/m/it/12 , let $\OML/cmm/m/it/12 d [][]\OT1/cmr/m/n/1
 2 = [][]([](\OML/cmm/m/it/12 u; v\OT1/cmr/m/n/12 ))$\OT1/cmr/m/it/12 .
  []
 
-[5 <./pics/graph2.png>] (./doc2.bbl) [6] (./doc2.aux)
+[6]
+Overfull \hbox (8.2095pt too wide) in paragraph at lines 255--256
+[]$\OML/cmm/m/it/12 r[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 ) + (
+\OMS/cmsy/m/n/12 ^^@\OT1/cmr/m/n/12 1)[]\OML/cmm/m/it/12 r[]\OT1/cmr/m/n/12 (\O
+MS/cmsy/m/n/12 ^^@\OT1/cmr/m/n/12 1 \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 x\OT1
+/cmr/m/n/12 ) = \OML/cmm/m/it/12 r[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x\OT1/cmr
+/m/n/12 ) = [][] \OML/cmm/m/it/12 r[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x\OT1/cm
+r/m/n/12 ) + (\OMS/cmsy/m/n/12 ^^@\OT1/cmr/m/n/12 1)[]\OML/cmm/m/it/12 r[]\OT1/
+cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^@\OT1/cmr/m/n/12 1 \OMS/cmsy/m/n/12 ^^@
+ []
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
+(./doc2.bbl [7]) [8] (./doc2.aux)
 Package rerunfilecheck Info: File `doc2.out' has not changed.
-(rerunfilecheck)             Checksum: 49A7F845950BD39122EFAD68EA8F7326;1092.
+(rerunfilecheck)             Checksum: 15D37F2E388D6119B8FC7CF9B1E269C7;1637.
  ) 
 Here is how much of TeX's memory you used:
- 11740 strings out of 478238
- 182998 string characters out of 5850456
- 504143 words of memory out of 5000000
- 29780 multiletter control sequences out of 15000+600000
+ 11764 strings out of 478238
+ 183311 string characters out of 5850456
+ 504161 words of memory out of 5000000
+ 29785 multiletter control sequences out of 15000+600000
  479416 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 67i,15n,68p,817b,568s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 67i,15n,68p,824b,568s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/publi
@@ -487,10 +495,10 @@ m/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></
 usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/ty
 pe1/public/amsfonts/symbols/msbm10.pfb>
-Output written on doc2.pdf (6 pages, 194960 bytes).
+Output written on doc2.pdf (8 pages, 204902 bytes).
 PDF statistics:
- 174 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
- 42 named destinations out of 1000 (max. 500000)
- 54 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 215 PDF objects out of 1000 (max. 8388607)
+ 173 compressed objects within 2 object streams
+ 61 named destinations out of 1000 (max. 500000)
+ 78 words of extra memory for PDF output out of 10000 (max. 10000000)
 
